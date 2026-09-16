@@ -1,11 +1,11 @@
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MessageCircle, Send, Trash2, ShoppingBag, ShieldCheck, Truck, Plus, Minus, Heart } from "lucide-react";
 
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { getNavNode } from "../nav/navTree";
@@ -19,6 +19,7 @@ function getProductMeta(productId: string) {
 }
 
 export default function CartPage() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const {
     cart,
@@ -61,126 +62,201 @@ export default function CartPage() {
 
   const requestViaWhatsapp = () => {
     const itemsText = cartItems
-      .map(([productId, qty]) => {
+      .map(([productId, qty], idx) => {
         const meta = getProductMeta(productId);
-        return `${meta.title} x${qty}`;
+        return `${idx + 1}. ${meta.title} (Qty: ${qty})`;
       })
       .join("\n");
 
-    const message = `Hi Vaibhav Sanitary, I want to inquire about:\n${itemsText}`;
-    const url = `https://wa.me/919667866899?text=${encodeURIComponent(message)}`;
+    const message = `Hello Vaibhav Sanitary,\nI would like to inquire about pricing, stock & delivery for the following items:\n\n${itemsText}\n\nPlease share the best quotation.`;
+    const url = `https://wa.me/916377307050?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
 
   const requestOnWebsite = () => {
     if (!user) {
-      window.location.href = "/login?from=/request";
+      navigate("/login", { state: { from: "/request" } });
       return;
     }
-    window.location.href = "/request";
+    navigate("/request");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#BDE8F5] to-white">
-      <div className="container mx-auto px-4 py-10 vs-route-enter">
-        <div className="mb-6">
-          <Button variant="outline" asChild>
+    <div className="min-h-screen bg-[#f8f9fb]">
+      {/* ── Top Bar ── */}
+      <div className="bg-white border-b border-[#d0daea]">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <Button variant="outline" size="sm" asChild className="border-[#d0daea] text-xs h-8">
             <Link to="/">
-              <ArrowLeft className="size-4 mr-2" />
-              Back to store
+              <ArrowLeft className="size-3.5 mr-1" />
+              Back to Store
             </Link>
           </Button>
+          <div className="text-xs font-semibold text-[#003B6F]">
+            Vaibhav Sanitary · Official Inquiry Cart
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8 vs-route-enter">
+        <div className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-[#0D1B2A]">
+            Product Inquiry Cart
+          </h1>
+          <p className="text-sm text-[#5a6a82] mt-1">
+            Review your selected building materials and request quotations directly.
+          </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Cart Section */}
           <div className="lg:col-span-2 space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-[#0F2854]">Cart {cartCount ? `(${cartCount})` : ""}</CardTitle>
-                <CardDescription>Items you’ve added to your cart.</CardDescription>
+            <Card className="border-[#d0daea] shadow-sm">
+              <CardHeader className="border-b border-[#d0daea]/60 pb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <ShoppingBag className="size-5 text-[#003B6F]" />
+                    <CardTitle className="text-[#0D1B2A] text-lg font-bold">
+                      Selected Items ({cartCount})
+                    </CardTitle>
+                  </div>
+                  {cartItems.length > 0 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearCart}
+                      className="text-xs text-red-600 hover:bg-red-50 hover:text-red-700 h-8"
+                    >
+                      <Trash2 className="size-3.5 mr-1" />
+                      Clear All
+                    </Button>
+                  )}
+                </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-4">
                 {cartItems.length === 0 ? (
-                  <p className="text-muted-foreground">Your cart is empty.</p>
+                  <div className="py-12 text-center">
+                    <div className="w-16 h-16 rounded-full bg-[#003B6F]/10 flex items-center justify-center mx-auto mb-4 text-[#003B6F]">
+                      <ShoppingBag className="size-8" />
+                    </div>
+                    <h3 className="text-base font-bold text-[#0D1B2A]">Your inquiry cart is empty</h3>
+                    <p className="text-sm text-[#5a6a82] mt-1 max-w-sm mx-auto">
+                      Explore our bathware, plumbing, tiles, and electrical catalog to add items.
+                    </p>
+                    <Button asChild className="mt-5 bg-[#003B6F] hover:bg-[#00244A] text-white">
+                      <Link to="/nav/root">Browse All Products</Link>
+                    </Button>
+                  </div>
                 ) : (
-                  <ScrollArea className="h-[60vh] pr-4">
-                    <div className="space-y-4">
-                      {cartItems.map(([productId, qty]) => {
-                        const meta = getProductMeta(productId);
-                        return (
-                          <div key={productId} className="rounded-xl border bg-white p-4">
-                            <div className="flex gap-4">
-                              <div className="h-20 w-28 overflow-hidden rounded-md bg-muted flex-shrink-0">
-                                {meta.image ? (
-                                  <ImageWithFallback
-                                    src={meta.image}
-                                    alt={meta.title}
-                                    className="h-full w-full object-cover"
-                                    loading="lazy"
-                                  />
-                                ) : null}
+                  <div className="space-y-4">
+                    {cartItems.map(([productId, qty]) => {
+                      const meta = getProductMeta(productId);
+                      return (
+                        <div
+                          key={productId}
+                          className="flex flex-col sm:flex-row gap-4 p-4 rounded-xl border border-[#d0daea] bg-white hover:border-[#003B6F]/40 transition"
+                        >
+                          <div className="h-20 w-24 sm:w-28 overflow-hidden rounded-lg bg-[#f8f9fb] flex-shrink-0 border border-[#d0daea]/60">
+                            {meta.image ? (
+                              <ImageWithFallback
+                                src={meta.image}
+                                alt={meta.title}
+                                className="h-full w-full object-cover"
+                                loading="lazy"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-xs text-[#5a6a82]">
+                                Material
                               </div>
-                              <div className="min-w-0 flex-1">
-                                <div className="font-semibold text-[#0F2854]">{meta.title}</div>
-                                {meta.description && (
-                                  <div className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                                    {meta.description}
-                                  </div>
-                                )}
-                                <div className="mt-3 flex flex-wrap items-center gap-2">
-                                  <Button variant="outline" size="sm" onClick={() => decrementCart(productId)}>
-                                    -
-                                  </Button>
-                                  <Badge variant="secondary">{qty}</Badge>
-                                  <Button variant="outline" size="sm" onClick={() => addToCart(productId, 1)}>
-                                    +
-                                  </Button>
-                                  <Button variant="ghost" size="sm" onClick={() => removeFromCart(productId)}>
-                                    Remove
-                                  </Button>
+                            )}
+                          </div>
+                          <div className="min-w-0 flex-1 flex flex-col justify-between">
+                            <div>
+                              <div className="font-bold text-[#0D1B2A] text-sm">
+                                {meta.title}
+                              </div>
+                              {meta.description && (
+                                <div className="mt-1 text-xs text-[#5a6a82] line-clamp-2">
+                                  {meta.description}
                                 </div>
+                              )}
+                            </div>
+                            <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+                              <div className="flex items-center gap-2 border border-[#d0daea] rounded-lg p-1 bg-[#f8f9fb]">
+                                <button
+                                  onClick={() => decrementCart(productId)}
+                                  className="w-7 h-7 flex items-center justify-center rounded hover:bg-white text-[#0D1B2A] transition"
+                                  aria-label="Decrease quantity"
+                                >
+                                  <Minus className="size-3.5" />
+                                </button>
+                                <span className="min-w-[2rem] text-center text-xs font-bold text-[#0D1B2A]">
+                                  {qty}
+                                </span>
+                                <button
+                                  onClick={() => addToCart(productId, 1)}
+                                  className="w-7 h-7 flex items-center justify-center rounded hover:bg-white text-[#0D1B2A] transition"
+                                  aria-label="Increase quantity"
+                                >
+                                  <Plus className="size-3.5" />
+                                </button>
                               </div>
+                              <button
+                                onClick={() => removeFromCart(productId)}
+                                className="text-xs text-red-600 hover:text-red-700 flex items-center gap-1 font-medium"
+                              >
+                                <Trash2 className="size-3" />
+                                Remove
+                              </button>
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
-                  </ScrollArea>
+                        </div>
+                      );
+                    })}
+                  </div>
                 )}
               </CardContent>
             </Card>
 
             {/* Recommendations */}
             {recommendedItems.length > 0 && (
-              <Card>
+              <Card className="border-[#d0daea] shadow-sm">
                 <CardHeader>
-                  <CardTitle className="text-[#0F2854]">Recommended for you</CardTitle>
-                  <CardDescription>Based on items in your cart.</CardDescription>
+                  <CardTitle className="text-[#0D1B2A] text-base font-bold">
+                    Frequently Inquired Together
+                  </CardTitle>
+                  <CardDescription className="text-xs">
+                    Complementary fittings & supplies for your ongoing work.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-4 sm:grid-cols-2">
                     {recommendedItems.map((productId) => {
                       const meta = getProductMeta(productId);
                       return (
-                        <div key={productId} className="rounded-xl border bg-white p-4">
-                          <div className="flex gap-3">
-                            <div className="h-16 w-20 overflow-hidden rounded-md bg-muted flex-shrink-0">
-                              {meta.image ? (
-                                <ImageWithFallback
-                                  src={meta.image}
-                                  alt={meta.title}
-                                  className="h-full w-full object-cover"
-                                  loading="lazy"
-                                />
-                              ) : null}
+                        <div key={productId} className="rounded-xl border border-[#d0daea] bg-white p-3 flex gap-3 items-center">
+                          <div className="h-14 w-16 overflow-hidden rounded-md bg-[#f8f9fb] flex-shrink-0 border border-[#d0daea]/60">
+                            {meta.image ? (
+                              <ImageWithFallback
+                                src={meta.image}
+                                alt={meta.title}
+                                className="h-full w-full object-cover"
+                                loading="lazy"
+                              />
+                            ) : null}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="font-semibold text-xs text-[#0D1B2A] truncate">
+                              {meta.title}
                             </div>
-                            <div className="min-w-0 flex-1">
-                              <div className="font-medium text-[#0F2854] truncate">{meta.title}</div>
-                              <Button size="sm" className="mt-2" onClick={() => addToCart(productId, 1)}>
-                                Add to cart
-                              </Button>
-                            </div>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="mt-2 h-7 text-xs border-[#003B6F]/30 text-[#003B6F] hover:bg-[#003B6F] hover:text-white"
+                              onClick={() => addToCart(productId, 1)}
+                            >
+                              Add to Cart
+                            </Button>
                           </div>
                         </div>
                       );
@@ -191,46 +267,101 @@ export default function CartPage() {
             )}
           </div>
 
-          {/* Sidebar */}
+          {/* Sidebar Summary */}
           <div className="space-y-6">
-            {/* Wishlist */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-[#0F2854]">Wishlist {wishlistCount ? `(${wishlistCount})` : ""}</CardTitle>
-                <CardDescription>Items you’ve saved for later.</CardDescription>
+            {/* Action Box */}
+            <Card className="border-[#003B6F]/30 shadow-md bg-white">
+              <CardHeader className="bg-[#003B6F]/5 border-b border-[#d0daea] pb-4">
+                <CardTitle className="text-[#003B6F] text-lg font-bold">
+                  Inquiry Summary
+                </CardTitle>
+                <CardDescription className="text-xs text-[#5a6a82]">
+                  Direct wholesale & retail inquiries for Chittorgarh & surrounding regions.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-5 space-y-4">
+                <div className="flex justify-between items-center text-sm font-semibold text-[#0D1B2A]">
+                  <span>Total Items</span>
+                  <span className="bg-[#003B6F] text-white px-2.5 py-0.5 rounded-full text-xs font-bold">
+                    {cartCount} units
+                  </span>
+                </div>
+
+                <div className="space-y-2 py-3 border-y border-[#d0daea] text-xs text-[#5a6a82]">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="size-4 text-[#003B6F] flex-shrink-0" />
+                    <span>100% Genuine, ISI Marked & Certified Materials</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Truck className="size-4 text-[#003B6F] flex-shrink-0" />
+                    <span>Same-day site delivery support available</span>
+                  </div>
+                </div>
+
+                {cartItems.length > 0 ? (
+                  <div className="space-y-3 pt-2">
+                    <Button
+                      className="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-sm h-11 shadow"
+                      onClick={requestViaWhatsapp}
+                    >
+                      <MessageCircle className="size-4 mr-2" />
+                      Inquire via WhatsApp (Instant)
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full border-[#003B6F] text-[#003B6F] hover:bg-[#003B6F] hover:text-white font-semibold text-sm h-10"
+                      onClick={requestOnWebsite}
+                    >
+                      <Send className="size-3.5 mr-2" />
+                      Submit Formal Inquiry on Site
+                    </Button>
+                  </div>
+                ) : (
+                  <p className="text-xs text-center text-[#5a6a82] italic">
+                    Add products to enable WhatsApp and online quotation requests.
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Wishlist Box */}
+            <Card className="border-[#d0daea] shadow-sm">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Heart className="size-4 text-red-500 fill-red-500" />
+                    <CardTitle className="text-[#0D1B2A] text-sm font-bold">
+                      Saved for Later ({wishlistCount})
+                    </CardTitle>
+                  </div>
+                </div>
               </CardHeader>
               <CardContent>
                 {wishlistItems.length === 0 ? (
-                  <p className="text-muted-foreground">Your wishlist is empty.</p>
+                  <p className="text-xs text-[#5a6a82]">Your saved list is empty.</p>
                 ) : (
-                  <ScrollArea className="h-[40vh] pr-4">
-                    <div className="space-y-3">
+                  <ScrollArea className="h-48 pr-2">
+                    <div className="space-y-2">
                       {wishlistItems.map((productId) => {
                         const meta = getProductMeta(productId);
                         return (
-                          <div key={productId} className="rounded-xl border bg-white p-3">
-                            <div className="flex gap-3">
-                              <div className="h-12 w-16 overflow-hidden rounded-md bg-muted flex-shrink-0">
-                                {meta.image ? (
-                                  <ImageWithFallback
-                                    src={meta.image}
-                                    alt={meta.title}
-                                    className="h-full w-full object-cover"
-                                    loading="lazy"
-                                  />
-                                ) : null}
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <div className="font-medium text-[#0F2854] truncate">{meta.title}</div>
-                                <div className="mt-2 flex gap-2">
-                                  <Button size="sm" onClick={() => addToCart(productId, 1)}>
-                                    Add to cart
-                                  </Button>
-                                  <Button variant="outline" size="sm" onClick={() => toggleWishlist(productId)}>
-                                    Remove
-                                  </Button>
-                                </div>
-                              </div>
+                          <div key={productId} className="flex items-center justify-between gap-2 p-2 rounded-lg border border-[#d0daea] text-xs">
+                            <span className="font-medium text-[#0D1B2A] truncate flex-1">
+                              {meta.title}
+                            </span>
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => addToCart(productId, 1)}
+                                className="px-2 py-1 bg-[#003B6F] text-white rounded text-[10px] font-semibold hover:bg-[#00244A]"
+                              >
+                                Add
+                              </button>
+                              <button
+                                onClick={() => toggleWishlist(productId)}
+                                className="p-1 text-gray-400 hover:text-red-500"
+                              >
+                                <Trash2 className="size-3" />
+                              </button>
                             </div>
                           </div>
                         );
@@ -240,28 +371,6 @@ export default function CartPage() {
                 )}
               </CardContent>
             </Card>
-
-            {/* Actions */}
-            {cartItems.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-[#0F2854]">Actions</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Button variant="outline" className="w-full" onClick={clearCart}>
-                    Clear cart
-                  </Button>
-                  <div className="grid gap-2">
-                    <Button variant="outline" className="w-full" onClick={requestViaWhatsapp}>
-                      Request via WhatsApp
-                    </Button>
-                    <Button className="w-full" onClick={requestOnWebsite}>
-                      Request on Website
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
           </div>
         </div>
       </div>

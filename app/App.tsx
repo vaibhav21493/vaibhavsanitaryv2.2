@@ -1,7 +1,31 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import StepCarousel from './components/StepCarousel';
 import HeroHeader from './components/HeroHeader';
-import { Phone, MapPin, Clock, CheckCircle, Languages } from 'lucide-react';
+import TrustBar from './components/TrustBar';
+import CategoryShowcase from './components/CategoryShowcase';
+import {
+  Phone,
+  MapPin,
+  Clock,
+  CheckCircle2,
+  Languages,
+  MessageCircle,
+  Star,
+  Facebook,
+  Instagram,
+  Youtube,
+  Sun,
+  Moon,
+  ArrowRight,
+  ShieldCheck,
+  Sparkles,
+  Layers,
+  Wrench,
+  Grid3X3,
+  Droplets,
+  Zap,
+} from 'lucide-react';
 import CartWishlistSheet from './components/CartWishlistSheet';
 import PlatformReviewBar from './components/PlatformReviewBar';
 import AuthStatusButton from './auth/AuthStatusButton';
@@ -20,327 +44,221 @@ export default function App() {
   const translations = {
     en: {
       title: 'Vaibhav Sanitary',
-      subtitle: 'Your Complete House-Building Partner',
-      welcome: 'Welcome to Vaibhav Sanitary',
-      welcomeText: 'Your trusted destination for sanitary ware, plumbing materials, construction supplies, tiles, lighting, hardware, steel, POP materials, glass & contractor support — all under one roof.',
-      visitStore: 'Visit our store on Kapasan Road,Narpat Ki Kheri, Chittorgarh',
+      subtitle: 'Complete House-Building & Sanitary Partner',
       tagline: 'From Foundation to Finish — Everything Under One Roof.',
       whyChoose: 'Why Choose Vaibhav Sanitary',
-      aboutUs: 'About Us',
-      aboutText: 'At Vaibhav Sanitary, we believe building your dream home should be simple and stress-free. That\'s why we supply every material required — from the first brick to the final finishing along with expert guidance & contractor support so you never have to search anywhere else.',
-      contactUs: 'Contact Us',
-      location: 'Location',
-      callWhatsapp: 'Call / WhatsApp',
-      timings: 'Timings',
+      aboutUs: 'About Vaibhav Sanitary',
+      aboutText:
+        "At Vaibhav Sanitary, we believe building your dream home should be simple and stress-free. We supply verified, premium materials — from structural cement & steel to Italian-collection bathware, designer tiles, and heavy-duty CPVC pipelines, backed by expert technical guidance and contractor support in Chittorgarh.",
+      contactUs: 'Contact & Store Visit',
+      location: 'Store Location',
+      callWhatsapp: 'Phone & WhatsApp',
+      timings: 'Operating Hours',
       footerTagline: 'Build Your Dream Home with Vaibhav Sanitary.',
-      
-      // Steps
-      foundation: 'Foundation & Structure',
-      foundationDesc: 'Strong materials for a safe and durable base.',
-      wallsRoof: 'Walls & Roof Construction',
-      wallsRoofDesc: 'Reliable support at every stage.',
-      plaster: 'Plaster & POP Base Work',
-      plasterDesc: 'Perfect walls & ceilings start here.',
-      tiles: 'Tiles & Flooring Work',
-      tilesDesc: 'Beautiful finishing your home deserves.',
+      quickLinks: 'Navigation',
+      categories: 'Product Categories',
+      contactInfo: 'Contact Information',
+      followUs: 'Connect With Us',
+      allRights: 'All rights reserved.',
+
+      // Section Titles
+      sanitary: 'Bathware & Sanitary Fittings',
+      sanitaryDesc: 'Italian collection faucets, rain showers, designer basins & ceramic commodes.',
+      tiles: 'Tiles & Surface Finishes',
+      tilesDesc: 'Vitrified slabs, ceramic wall tiles, and waterproof epoxy grouting solutions.',
       electrical: 'Electrical & Lighting Setup',
-      electricalDesc: 'Safe, bright & efficient lighting.',
-      sanitary: 'Bathroom & Sanitary Fittings',
-      sanitaryDesc: 'Premium quality & long-lasting performance.',
-      painting: 'Painting & Home Decoration',
-      paintingDesc: 'Add beauty & style to your dream home.',
-      glass: 'Windows, Doors & Glass Work',
-      glassDesc: 'Elegant finishing touches.',
-      waterTank: 'Water Tank',
-      waterTankDesc: 'Durable water storage solutions.',
-      
+      electricalDesc: 'Modular switches, conduit piping, FR multi-strand wires & LED panels.',
+      waterTank: 'Water Storage Solutions',
+      waterTankDesc: 'Multi-layer UV stabilized overhead water storage tanks.',
+      foundation: 'Foundation & Structural Supplies',
+      foundationDesc: 'High-grade cement, TMT reinforcement, and structural hardware.',
+
       // Benefits
-      benefit1: 'One-stop solution for all building needs',
-      benefit2: 'Quality-assured materials',
-      benefit3: 'Trusted contractor contacts',
-      benefit4: 'Best pricing',
-      benefit5: 'Friendly customer guidance',
+      benefit1: { title: 'One-Stop Building Solution', desc: 'All construction materials and fittings under one roof' },
+      benefit2: { title: '100% Quality Assured', desc: 'ISI marked, brand certified products only' },
+      benefit3: { title: 'Master Contractor Network', desc: 'Direct contacts for verified plumbers, electricians & masons' },
+      benefit4: { title: 'Wholesale & Retail Pricing', desc: 'Transparent, highly competitive rates directly from manufacturers' },
+      benefit5: { title: 'Technical Guidance', desc: 'Material estimation and layout support at every stage' },
+      benefit6: { title: 'Same-Day Site Delivery', desc: 'Prompt site logistics for Chittorgarh & nearby regions' },
     },
     hi: {
       title: 'वैभव सैनिटरी',
-      subtitle: 'आपका पूर्ण घर-निर्माण साथी',
-      welcome: 'वैभव सैनिटरी में आपका स्वागत है',
-      welcomeText: 'सैनिटरी वेयर, प्लंबिंग सामग्री, निर्माण आपूर्ति, टाइल्स, लाइटिंग, हार्डवेयर, स्टील, POP सामग्री, ग्लास और ठेकेदार सहायता के लिए आपका विश्वसनीय गंतव्य — सब कुछ एक छत के नीचे।',
-      visitStore: 'कपासन रोड, नरपत की खेड़ी, चित्तौड़गढ़ पर हमारे स्टोर पर जाएं',
+      subtitle: 'आपका पूर्ण घर-निर्माण एवं सैनिटरी साथी',
       tagline: 'नींव से फिनिशिंग तक — सब कुछ एक छत के नीचे।',
       whyChoose: 'वैभव सैनिटरी क्यों चुनें',
       aboutUs: 'हमारे बारे में',
-      aboutText: 'वैभव सैनिटरी में, हम मानते हैं कि आपका ड्रीम होम बनाना सरल और तनाव मुक्त होना चाहिए। इसीलिए हम हर आवश्यक सामग्री की आपूर्ति करते हैं — पहली ईंट से लेकर अंतिम फिनिशिंग तक विशेषज्ञ मार्गदर्शन और ठेकेदार सहायता के साथ ताकि आपको कहीं और खोजने की आवश्यकता न हो।',
-      contactUs: 'संपर्क करें',
-      location: 'स्थान',
-      callWhatsapp: 'कॉल / व्हाट्सएप',
-      timings: 'समय',
+      aboutText:
+        'वैभव सैनिटरी में, हम मानते हैं कि आपका ड्रीम होम बनाना सरल और तनाव मुक्त होना चाहिए। इसीलिए हम हर आवश्यक सामग्री की आपूर्ति करते हैं — पहली ईंट और सीमेंट से लेकर अंतिम लक्जरी बाथवेयर, टाइल्स और प्लंबिंग तक विशेषज्ञ मार्गदर्शन और ठेकेदार सहायता के साथ।',
+      contactUs: 'संपर्क एवं स्टोर का पता',
+      location: 'हमारा स्थान',
+      callWhatsapp: 'फोन / व्हाट्सएप',
+      timings: 'स्टोर का समय',
       footerTagline: 'वैभव सैनिटरी के साथ अपना सपनों का घर बनाएं।',
-      
-      // Steps
-      foundation: 'नींव और संरचना',
-      foundationDesc: 'सुरक्षित और टिकाऊ आधार के लिए मजबूत सामग्री।',
-      wallsRoof: 'दीवारें और छत निर्माण',
-      wallsRoofDesc: 'हर चरण में विश्वसनीय सहायता।',
-      plaster: 'प्लास्टर और POP बेस वर्क',
-      plasterDesc: 'परफेक्ट दीवारें और छत यहाँ से शुरू होती हैं।',
-      tiles: 'टाइल्स और फ्लोरिंग वर्क',
-      tilesDesc: 'आपके घर की सुंदर फिनिशिंग।',
-      electrical: 'बिजली और लाइटिंग सेटअप',
-      electricalDesc: 'सुरक्षित, उज्ज्वल और कुशल प्रकाश।',
+      quickLinks: 'नेविगेशन',
+      categories: 'उत्पाद श्रेणियाँ',
+      contactInfo: 'संपर्क जानकारी',
+      followUs: 'सोशल मीडिया',
+      allRights: 'सर्वाधिकार सुरक्षित।',
+
+      // Section Titles
       sanitary: 'बाथरूम और सैनिटरी फिटिंग',
-      sanitaryDesc: 'प्रीमियम गुणवत्ता और लंबे समय तक चलने वाला प्रदर्शन।',
-      painting: 'पेंटिंग और होम डेकोरेशन',
-      paintingDesc: 'अपने सपनों के घर में सुंदरता और शैली जोड़ें।',
-      glass: 'खिड़कियां, दरवाजे और ग्लास वर्क',
-      glassDesc: 'सुरुचिपूर्ण फिनिशिंग टच।',
-      waterTank: 'पानी की टंकी',
-      waterTankDesc: 'टिकाऊ पानी भंडारण समाधान।',
-      
+      sanitaryDesc: 'प्रीमियम लक्जरी नल, शावर, डिज़ाइनर बेसिन एवं टॉयलेट वेयर।',
+      tiles: 'टाइल्स और फ्लोरिंग वर्क',
+      tilesDesc: 'विट्रिफाइड टाइल्स, सिरेमिक दीवार टाइलें और एपॉक्सी समाधान।',
+      electrical: 'बिजली और लाइटिंग सेटअप',
+      electricalDesc: 'मॉड्यूलर स्विच, कंड्यूट पाइपिंग एवं सुरक्षित विद्युत तार।',
+      waterTank: 'पानी की टंकी समाधान',
+      waterTankDesc: 'टिकाऊ मल्टी-लेयर यूवी स्टेबलाइज्ड वाटर स्टोरेज टैंक।',
+      foundation: 'नींव और संरचना सामग्री',
+      foundationDesc: 'सुरक्षित और टिकाऊ आधार के लिए उच्च गुणवत्ता सीमेंट एवं सरिया।',
+
       // Benefits
-      benefit1: 'सभी निर्माण आवश्यकताओं के लिए न-स्टॉप समाधान',
-      benefit2: 'गुणवत्ता-आश्वासित सामग्री',
-      benefit3: 'विश्वसनीय ठेकेदार संपर्क',
-      benefit4: 'सर्वोत्तम मूल्य निर्धारण',
-      benefit5: 'मैत्रीपूर्ण ग्राहक मार्गदर्शन',
-    }
+      benefit1: { title: 'वन-स्टॉप समाधान', desc: 'एक छत के नीचे सभी निर्माण और सैनिटरी सामग्री' },
+      benefit2: { title: 'गुणवत्ता आश्वासन', desc: 'केवल ISI चिह्नित और प्रमाणित ब्रांडेड उत्पाद' },
+      benefit3: { title: 'ठेकेदार नेटवर्क', desc: 'विश्वसनीय प्लंबर, इलेक्ट्रीशियन और राजमिस्त्री संपर्क' },
+      benefit4: { title: 'सर्वोत्तम मूल्य', desc: 'पारदर्शी और प्रतिस्पर्धी थोक एवं खुदरा दरें' },
+      benefit5: { title: 'तकनीकी मार्गदर्शन', desc: 'सामग्री अनुमान और विशेषज्ञ सहायता' },
+      benefit6: { title: 'साइट डिलीवरी', desc: 'चित्तौड़गढ़ और आसपास के क्षेत्रों में त्वरित आपूर्ति' },
+    },
   };
 
   const t = translations[language];
 
-  const foundationItems = [
-    {
-      id: 1,
-      title: language === 'en' ? 'Cement' : 'सीमेंट',
-      image: 'https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=400',
-      description: language === 'en' ? 'High-quality cement brands' : 'उच्च गुणवत्ता सीमेंट ब्रांड',
-      navId: 'cement',
-    },
-  ];
-
-  /* HIDDEN: Walls & Roof Construction Category
-  const wallsRoofItems = [
-    {
-      id: 1,
-      title: language === 'en' ? 'Bricks & Blocks' : 'ईंटें और ब्लॉक',
-      image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400',
-      description: language === 'en' ? 'For wall construction' : 'दीवार निर्माण के लिए',
-      navId: 'blocks',
-    },
-    {
-      id: 2,
-      title: language === 'en' ? 'Steel Reinforcement' : 'स्टील रीइन्ोर्समेंट',
-      image: 'https://images.unsplash.com/photo-1565008576549-57569a49371d?w=400',
-      description: language === 'en' ? 'Roof support materials' : 'छत समर्थन सामग्री',
-      navId: 'roof-steel',
-    },
-    {
-      id: 3,
-      title: language === 'en' ? 'Construction Hardware' : 'निर्माण हार्डवेयर',
-      image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400',
-      description: language === 'en' ? 'Essential tools & supplies' : 'आवश्यक उपकरण और आपूर्ति',
-      navId: 'construction-hardware',
-    },
-    {
-      id: 4,
-      title: language === 'en' ? 'Contractor Support' : 'ठेकेदार सहायता',
-      image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400',
-      description: language === 'en' ? 'Skilled contractor contacts' : 'कुशल ठेकेदार संपर्क',
-      navId: 'contractors-masonry',
-    },
-  ];
-  */
-
-  /* HIDDEN: Plaster & POP Category
-  const plasterItems = [
-    {
-      id: 1,
-      title: language === 'en' ? 'POP Material' : 'POP सामग्री',
-      image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400',
-      description: language === 'en' ? 'Quality plaster of paris' : 'गुणवत्ता प्लास्टर ऑफ पेरिस',
-      navId: 'pop',
-    },
-    {
-      id: 2,
-      title: language === 'en' ? 'Finishing Hardware' : 'फिनिशिंग हार्डवेयर',
-      image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400',
-      description: language === 'en' ? 'Tools for perfect finish' : 'परफेक्ट फिनिश के लिए उपकरण',
-      navId: 'finishing-tools',
-    },
-    {
-      id: 3,
-      title: language === 'en' ? 'POP Contractor' : 'POP ठेकेदार',
-      image: 'https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=400',
-      description: language === 'en' ? 'Expert POP contractors' : 'विशेषज्ञ POP ठेकेदार',
-      navId: 'contractors-pop',
-    },
-  ];
-  */
-
-  const tilesItems = [
-    {
-      id: 1,
-      title: language === 'en' ? 'Ceramic Tiles' : 'सिरेमिक टाइल्स',
-      image: 'https://images.unsplash.com/photo-1615873968403-89e068629265?w=400',
-      description: language === 'en' ? 'Multiple designs available' : 'कई डिज़ाइन उपलब्ध',
-      navId: 'ceramic-tiles',
-    },
-    {
-      id: 2,
-      title: language === 'en' ? 'Grout & Epoxy' : 'ग्राउट और एपॉक्सी',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',
-      description: language === 'en' ? 'Grout and epoxy solutions for tile joints' : 'टाइल जोड़ों के लिए ग्राउट और एपॉक्सी समाधान',
-      navId: 'grout-epoxy',
-    },
-  ];
-
-  const electricalItems = [
-    {
-      id: 1,
-      title: language === 'en' ? 'Fitting & Pipe' : 'फिटिंग और पाइप',
-      image: 'https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=400',
-      description: language === 'en' ? 'Electrical fittings & conduit pipes' : 'इलेक्ट्रिकल फिटिंग और कंड्यूट पाइप',
-      navId: 'electrical-fitting-pipe',
-    },
-    {
-      id: 2,
-      title: language === 'en' ? 'Wire' : 'तार',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',
-      description: language === 'en' ? 'Quality electrical wires' : 'गुणवत्ता विद्युत तार',
-      navId: 'electrical-wire',
-    },
-    {
-      id: 3,
-      title: language === 'en' ? 'Switch Board' : 'स्विच बोर्ड',
-      image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400',
-      description: language === 'en' ? 'Modular switch boards & panels' : 'मॉड्यूलर स्विच बोर्ड और पैनल',
-      navId: 'switch-board',
-    },
-  ];
-
+  // Sanitary & Bathroom
   const sanitaryItems = [
     {
       id: 1,
-      title: language === 'en' ? 'Taps & Mixers' : 'नल और मिक्सर',
-      image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400',
-      description: language === 'en' ? 'Premium quality taps' : 'प्रीमियम गुणवत्ता नल',
+      title: language === 'en' ? 'Taps & Basin Mixers' : 'नल और बेसिन मिक्सर',
+      image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Hindware & Jaquar collection brass faucets' : 'प्रीमियम पीतल के नल एवं मिक्सर',
       navId: 'taps-mixers',
     },
     {
       id: 2,
-      title: language === 'en' ? 'Showers' : 'शावर',
-      image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=400',
-      description: language === 'en' ? 'Rain & hand showers' : 'रेन और हंड शावर',
+      title: language === 'en' ? 'Rain & Multi-Flow Showers' : 'शावर एवं ओवरहेड सिस्टम',
+      image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Overhead rain showers & concealed diverters' : 'रेन और हैंड शावर सिस्टम',
       navId: 'showers',
     },
     {
       id: 3,
-      title: language === 'en' ? 'Toilets & Basins' : 'टॉयलेट और बेसिन',
-      image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?w=400',
-      description: language === 'en' ? 'Designer sanitary ware' : 'डिज़ाइनर सैनिटरी वेयर',
+      title: language === 'en' ? 'Designer Basins & Toilets' : 'टॉयलेट और बेसिन',
+      image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Italian table-top washbasins & wall-hung WCs' : 'डिज़ाइनर सिरेमिक सैनिटरी वेयर',
       navId: 'basins',
     },
     {
       id: 4,
-      title: language === 'en' ? 'Plumbing Pipes' : 'प्लंबिंग पाइप',
-      image: 'https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=400',
-      description: language === 'en' ? 'CPVC & PVC pipes' : 'CPVC और PVC पाइप',
+      title: language === 'en' ? 'CPVC & UPVC Pipes' : 'प्लंबिंग पाइप और फिटिंग',
+      image: 'https://images.unsplash.com/photo-1542013936693-884638332954?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Ashirvad Flowguard CPVC & UPVC pressure pipes' : 'आशीर्वाद CPVC और UPVC पाइप',
       navId: 'pipes',
     },
     {
       id: 5,
-      title: language === 'en' ? 'Drainage Items' : 'ड्रेनेज आइटम',
-      image: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=400',
-      description: language === 'en' ? 'Complete drainage system' : 'पूर्ण ड्रेनेज सिस्टम',
+      title: language === 'en' ? 'Drainage Channels & Traps' : 'ड्रेनेज सिस्टम',
+      image: 'https://images.unsplash.com/photo-1613545325278-f24b0cae1224?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Stainless steel floor traps & linear drains' : 'पूर्ण ड्रेनेज एवं फ्लोर ट्रैप्स',
       navId: 'drainage',
     },
   ];
 
+  // Tiles & Flooring
+  const tilesItems = [
+    {
+      id: 1,
+      title: language === 'en' ? 'Vitrified Marble Slabs' : 'विट्रिफाइड मार्बल टाइल्स',
+      image: 'https://images.unsplash.com/photo-1615873968403-89e068629265?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'High-gloss glazed porcelain floor tiles (2x4, 4x6)' : 'शानदार डिज़ाइन और टिकाऊ फिनिश',
+      navId: 'ceramic-tiles',
+    },
+    {
+      id: 2,
+      title: language === 'en' ? 'Designer Ceramic Wall Tiles' : 'सिरेमिक दीवार टाइलें',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Waterproof textured bathroom & kitchen wall tiles' : 'वॉटरप्रूफ बाथरूम और किचन दीवार टाइल्स',
+      navId: 'ceramic-tiles',
+    },
+    {
+      id: 3,
+      title: language === 'en' ? 'Epoxy Grout & Tile Adhesives' : 'ग्राउट और टाइल एडहेसिव',
+      image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Waterproof epoxy joint fillers & polymer bonding' : 'टाइल जोड़ों के लिए वॉटरप्रूफ एपॉक्सी',
+      navId: 'grout-epoxy',
+    },
+  ];
+
+  // Electrical & Lighting
+  const electricalItems = [
+    {
+      id: 1,
+      title: language === 'en' ? 'Conduit Pipes & Boxes' : 'कंड्यूट पाइप और फिटिंग',
+      image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Heavy-duty concealed PVC wiring conduit pipes' : 'इलेक्ट्रिकल फिटिंग और पाइप',
+      navId: 'electrical-fitting-pipe',
+    },
+    {
+      id: 2,
+      title: language === 'en' ? 'FR Copper Multi-Strand Wires' : 'सुरक्षित विद्युत तार',
+      image: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Havells & Polycab fire-resistant domestic wire coils' : 'अग्नि-प्रतिरोधी तांबे के तार',
+      navId: 'electrical-wire',
+    },
+    {
+      id: 3,
+      title: language === 'en' ? 'Modular Switch Panels & MCBs' : 'मॉड्यूलर स्विच बोर्ड',
+      image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Designer touch plates, sockets & distribution MCBs' : 'मॉड्यूलर स्विच और सुरक्षा पैनल',
+      navId: 'switch-board',
+    },
+  ];
+
+  // Water Tank
   const waterTankItems = [
     {
       id: 1,
-      title: language === 'en' ? 'Water Tank' : 'पानी की टंकी',
-      image: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=400',
-      description: language === 'en' ? 'Durable water storage tanks' : 'टिकाऊ पानी भंडारण टैंक',
+      title: language === 'en' ? 'Antibacterial Water Storage Tanks' : 'पानी की टंकी',
+      image: 'https://images.unsplash.com/photo-1527030280862-64139fba04ca?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Ashirvad & Sintex 3-layer, 4-layer UV protected tanks (500L - 2000L)' : 'टिकाऊ 3-लेयर एवं 4-लेयर वाटर टैंक',
+      navId: 'water-tank',
+    },
+    {
+      id: 2,
+      title: language === 'en' ? 'Heavy-Duty Underground Sump Tanks' : 'अंडरग्राउंड स्टोरेज टैंक',
+      image: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Reinforced polymer underground water tanks' : 'मजबूत अंडरग्राउंड वाटर स्टोरेज',
       navId: 'water-tank',
     },
   ];
 
-  /* HIDDEN: Painting & Home Decoration Category
-  const paintingItems = [
+  // Foundation & Cement
+  const foundationItems = [
     {
       id: 1,
-      title: language === 'en' ? 'Wall Paints' : 'वॉल पेंट',
-      image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400',
-      description: language === 'en' ? 'All colors available' : 'सभी रंग उपलब्ध',
-      navId: 'wall-paints',
+      title: language === 'en' ? 'High-Grade Cement Bags' : 'सीमेंट (UltraTech / ACC)',
+      image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'OPC 53, PPC & WeatherPlus cement bags' : 'उच्च गुणवत्ता सीमेंट ब्रांड',
+      navId: 'cement',
     },
     {
       id: 2,
-      title: language === 'en' ? 'Premium Paints' : 'प्रीमियम पेंट',
-      image: 'https://images.unsplash.com/photo-1572363241899-409f46ba62f5?w=400',
-      description: language === 'en' ? 'Weather-resistant finish' : 'मौसम प्रतिरोधी फिनिश',
-      navId: 'premium-paints',
+      title: language === 'en' ? 'Fe-550D TMT Steel Rebars' : 'टीएमटी सरिया (TMT Steel)',
+      image: 'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Tata Tiscon & Jindal Panther earthquake-resistant steel' : 'भूकंप प्रतिरोधी टीएमटी सरिया',
+      navId: 'steel',
     },
     {
       id: 3,
-      title: language === 'en' ? 'Painting Hardware' : 'पेंटिंग हार्डवेयर',
-      image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400',
-      description: language === 'en' ? 'Brushes, rollers & tools' : 'ब्रश, रोलर और उपकरण',
-      navId: 'rollers-brushes',
-    },
-    {
-      id: 4,
-      title: language === 'en' ? 'Accessories' : 'सहायक उपकरण',
-      image: 'https://images.unsplash.com/photo-1604709177225-055f99402ea3?w=400',
-      description: language === 'en' ? 'Putty, primer & more' : 'पुट्टी, प्राइमर और अधिक',
-      navId: 'primer-putty',
+      title: language === 'en' ? 'Precision AAC Building Blocks' : 'एएसी ब्लॉक (AAC Blocks)',
+      image: 'https://images.unsplash.com/photo-1590069261209-f8e9b8642343?w=600&auto=format&fit=crop',
+      description: language === 'en' ? 'Lightweight thermal insulated structural blocks' : 'हल्की एवं मजबूत निर्माण ईंटें',
+      navId: 'brick-aac-blocks',
     },
   ];
-  */
 
-  /* HIDDEN: Windows, Doors & Glass Work Category
-  const glassItems = [
-    {
-      id: 1,
-      title: language === 'en' ? 'Window Glass' : 'विंडो ग्लास',
-      image: 'https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?w=400',
-      description: language === 'en' ? 'Clear & tinted options' : 'क्लियर और टिंटेड विकल्प',
-      navId: 'window-glass',
-    },
-    {
-      id: 2,
-      title: language === 'en' ? 'Door Glass' : 'डोर ग्लास',
-      image: 'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=400',
-      description: language === 'en' ? 'Tempered safety glass' : 'टेम्पर्ड सेफ्टी ग्लास',
-      navId: 'door-glass',
-    },
-    {
-      id: 3,
-      title: language === 'en' ? 'Glass Fittings' : 'ग्लास फिटिंग',
-      image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400',
-      description: language === 'en' ? 'Hardware for glass work' : 'ग्लास वर्क के लिए हार्डवेयर',
-      navId: 'glass-fittings',
-    },
-    {
-      id: 4,
-      title: language === 'en' ? 'Glass Contractors' : 'ग्लास ठेकेदार',
-      image: 'https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=400',
-      description: language === 'en' ? 'Expert glass installers' : 'विशेषज्ञ ग्लास इंस्टॉलर',
-      navId: 'contractors-glass',
-    },
-  ];
-  */
+  const benefits = [t.benefit1, t.benefit2, t.benefit3, t.benefit4, t.benefit5, t.benefit6];
 
-  const benefits = [
-    t.benefit1,
-    t.benefit2,
-    t.benefit3,
-    t.benefit4,
-    t.benefit5,
-  ];
-
-  // Theme state and effect
+  // Theme toggle state
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
@@ -361,332 +279,454 @@ export default function App() {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   }
 
+  const sectionHeading = (title: string, sub: string, navLink?: string) => (
+    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
+      <div>
+        <div className="flex items-center gap-2 mb-1.5">
+          <div className="w-1.5 h-6 bg-[#E8891A] rounded-full" />
+          <h2 className="text-2xl md:text-3xl font-bold text-[#0D1B2A] tracking-tight">{title}</h2>
+        </div>
+        <p className="text-sm text-[#5a6a82] ml-3.5">{sub}</p>
+      </div>
+      {navLink && (
+        <Link
+          to={navLink}
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#003B6F] hover:text-[#E8891A] transition-colors ml-3.5 sm:ml-0"
+        >
+          <span>View All in Category</span>
+          <ArrowRight className="size-3.5" />
+        </Link>
+      )}
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-background border-b border-border sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col gap-4 py-4">
-            {/* Top bar */}
-            <div className="flex justify-between items-center">
-              <div className="flex-1">
-                <h1 className="text-2xl md:text-3xl font-bold text-foreground">
-                  🏠 {t.title}
-                </h1>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {t.subtitle}
-                </p>
-              </div>
+    <div className="min-h-screen bg-[#f8f9fb]">
 
-              {/* Right actions */}
-              <div className="flex flex-wrap items-center justify-end gap-3">
-                <button
-                  onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
-                  className="px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted rounded-lg transition border border-border"
+      {/* ────────────────────────────────────────────────
+          HEADER: Utility Bar + Main Navigation
+      ──────────────────────────────────────────────── */}
+      <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-[#d0daea]">
+        {/* Top Utility Bar */}
+        <div className="bg-[#003B6F] text-white">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 py-1.5 text-xs">
+              <div className="flex flex-wrap items-center gap-4">
+                <a href="tel:6377307050" className="flex items-center gap-1.5 hover:text-[#F4A94A] transition-colors">
+                  <Phone className="w-3 h-3 text-[#F4A94A]" />
+                  <span>6377307050</span>
+                </a>
+                <a href="tel:9462656996" className="flex items-center gap-1.5 hover:text-[#F4A94A] transition-colors">
+                  <Phone className="w-3 h-3 text-[#F4A94A]" />
+                  <span>9462656996</span>
+                </a>
+                <a
+                  href="https://wa.me/916377307050"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-[#25D366] hover:text-white transition-colors font-medium"
                 >
-                  <Languages className="w-4 h-4 inline mr-1" />
-                  {language === 'en' ? 'हिंदी' : 'English'}
-                </button>
-
-                <AuthStatusButton />
-                <CartWishlistSheet />
+                  <MessageCircle className="w-3 h-3" />
+                  <span>WhatsApp Inquiry</span>
+                </a>
+              </div>
+              <div className="flex items-center gap-4 text-white/80">
+                <span className="flex items-center gap-1.5">
+                  <Clock className="w-3 h-3 text-[#F4A94A]" />
+                  9:00 AM – 7:00 PM
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <MapPin className="w-3 h-3 text-[#F4A94A]" />
+                  {language === 'en' ? 'Kapasan Road, Chittorgarh' : 'कपासन रोड, चित्तौड़गढ़'}
+                </span>
               </div>
             </div>
+          </div>
+        </div>
 
-            {/* Contact info */}
-            <div className="flex flex-wrap gap-6 text-sm text-muted-foreground border-t border-border pt-4">
-              <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-primary" />
-                <div>
-                  <div className="font-medium text-foreground">6377307050</div>
-                  <div className="text-xs">9462656996</div>
-                </div>
+        {/* Main Nav Header */}
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between py-3.5 gap-4">
+            {/* Brand Logo */}
+            <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[#003B6F] flex items-center justify-center text-white shadow-sm font-black text-xl">
+                VS
               </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-primary" />
-                <div className="text-sm">{t.visitStore}</div>
+              <div>
+                <span className="text-xl font-black text-[#003B6F] tracking-tight block leading-tight">
+                  VAIBHAV SANITARY
+                </span>
+                <span className="text-[10px] uppercase font-semibold tracking-wider text-[#5a6a82] block">
+                  House-Building & Bathware Partner
+                </span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-primary" />
-                <div className="text-sm">9:00 AM – 7:00 PM</div>
-              </div>
+            </Link>
+
+            {/* Middle Nav Links */}
+            <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-[#0D1B2A]">
+              <Link to="/" className="hover:text-[#003B6F] transition-colors">
+                Home
+              </Link>
+              <Link to="/nav/root" className="hover:text-[#003B6F] transition-colors">
+                All Products
+              </Link>
+              <Link to="/nav/bathroom-sanitary" className="hover:text-[#003B6F] transition-colors">
+                Bathware
+              </Link>
+              <Link to="/nav/pipes" className="hover:text-[#003B6F] transition-colors">
+                Plumbing & Tanks
+              </Link>
+              <Link to="/nav/tiles-flooring" className="hover:text-[#003B6F] transition-colors">
+                Tiles
+              </Link>
+              <Link to="/nav/electrical-lighting" className="hover:text-[#003B6F] transition-colors">
+                Electrical
+              </Link>
+              <a href="#about" className="hover:text-[#003B6F] transition-colors">
+                About Us
+              </a>
+              <a href="#contact" className="hover:text-[#003B6F] transition-colors">
+                Contact
+              </a>
+            </nav>
+
+            {/* Right Action Icons */}
+            <div className="flex items-center gap-2.5">
+              {/* Language Switch */}
+              <button
+                onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-[#003B6F] border border-[#003B6F]/30 rounded-lg hover:bg-[#003B6F]/10 transition"
+              >
+                <Languages className="w-3.5 h-3.5" />
+                <span>{language === 'en' ? 'हिंदी' : 'English'}</span>
+              </button>
+
+              {/* Theme Toggle Button (Professional Icon) */}
+              <button
+                onClick={toggleTheme}
+                aria-label="Toggle color theme"
+                className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#d0daea] hover:bg-[#f8f9fb] text-[#0D1B2A] transition"
+                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              >
+                {theme === 'dark' ? (
+                  <Sun className="w-4 h-4 text-[#F4A94A]" />
+                ) : (
+                  <Moon className="w-4 h-4 text-[#003B6F]" />
+                )}
+              </button>
+
+              <AuthStatusButton />
+              <CartWishlistSheet />
             </div>
           </div>
         </div>
       </header>
 
-      {/* PlatformReviewBar */}
-      <div className="bg-secondary border-b border-border py-2">
-        <div className="container mx-auto px-4">
+      {/* Platform Review Ribbon */}
+      <div className="bg-[#eef2f8] border-b border-[#d0daea] py-1.5">
+        <div className="container mx-auto px-4 flex justify-between items-center text-xs">
           <PlatformReviewBar language={language} />
+          <span className="hidden md:inline text-xs text-[#5a6a82]">
+            Serving Chittorgarh, Kapasan, Nimbahera & Mewar Region
+          </span>
         </div>
       </div>
 
-      {/* New Hero Header with Carousel, Search & Categories */}
-      <section className="container mx-auto px-4 py-8">
-        <HeroHeader language={language} />
-      </section>
+      {/* ── Hero Carousel + Search ── */}
+      <HeroHeader language={language} />
 
-      {/* Hero Section with Welcome */}
-      <section className="bg-gradient-to-r from-primary to-primary text-primary-foreground py-12 relative overflow-hidden">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {user && profileName ? `Welcome back, ${profileName}!` : t.welcome}
-          </h2>
-          <p className="text-lg md:text-xl mb-6 max-w-3xl mx-auto text-primary-foreground/80 dark:text-primary-foreground">
-            {t.welcomeText}
-          </p>
-          <p className="text-xl font-semibold italic text-primary-foreground/70 dark:text-primary-foreground">
-            "{t.tagline}"
-          </p>
+      {/* ── Ashirvad-Style Trust Badges ── */}
+      <TrustBar language={language} />
+
+      {/* ── Hindware-Style Category Showcase ── */}
+      <CategoryShowcase language={language} />
+
+      {/* ── Turnkey House Package Banner ── */}
+      <section className="container mx-auto px-4 my-8">
+        <div className="rounded-2xl bg-gradient-to-r from-[#003B6F] via-[#00244A] to-[#003B6F] p-8 md:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 bg-[#E8891A] text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded mb-3">
+              <Sparkles className="size-3.5" />
+              Turnkey House Consultation
+            </div>
+            <h3 className="text-2xl md:text-3xl font-bold leading-tight">
+              Building a new home in Chittorgarh?
+            </h3>
+            <p className="mt-2 text-white/80 text-sm md:text-base leading-relaxed">
+              Get an end-to-end material estimation, brand comparison, and direct contractor connections for your entire construction project.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="https://wa.me/916377307050?text=Hello%20Vaibhav%20Sanitary,%20I%20am%20building%20a%20new%20home%20and%20need%20a%20complete%20material%20quotation."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold rounded-xl text-sm transition shadow flex items-center gap-2"
+            >
+              <MessageCircle className="size-4" />
+              Chat on WhatsApp
+            </a>
+            <Link
+              to="/nav/root"
+              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-sm border border-white/20 transition"
+            >
+              Explore Full Catalog
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-16">
-        {/* Foundation & Structure */}
-        <section className="mb-16">
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-2">
-              ✅ {t.foundation}
-            </h2>
-            <p className="text-muted-foreground">{t.foundationDesc}</p>
-          </div>
-          <StepCarousel items={foundationItems} />
-        </section>
+      {/* ── Main Catalog Highlights ── */}
+      <main className="container mx-auto px-4 py-10 space-y-16">
 
-        {/* HIDDEN: Walls & Roof Construction Category
-        <section className="mb-16">
-          <div className="mb-8 transform hover:scale-105 transition-transform duration-300">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent mb-2">
-              ✅ {t.wallsRoof}
-            </h2>
-            <p className="text-muted-foreground">📌 {t.wallsRoofDesc}</p>
-          </div>
-          <StepCarousel items={wallsRoofItems} />
-        </section>
-        */}
-
-        {/* HIDDEN: Plaster & POP Category
-        <section className="mb-16">
-          <div className="mb-8 transform hover:scale-105 transition-transform duration-300">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent mb-2">
-              ✅ {t.plaster}
-            </h2>
-            <p className="text-muted-foreground">📌 {t.plasterDesc}</p>
-          </div>
-          <StepCarousel items={plasterItems} />
-        </section>
-        */}
-
-        {/* Tiles & Flooring */}
-        <section className="mb-16">
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-2">
-              ✅ {t.tiles}
-            </h2>
-            <p className="text-muted-foreground">{t.tilesDesc}</p>
-          </div>
-          <StepCarousel items={tilesItems} />
-        </section>
-
-        {/* Electrical & Lighting */}
-        <section className="mb-16">
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-2">
-              ✅ {t.electrical}
-            </h2>
-            <p className="text-muted-foreground">{t.electricalDesc}</p>
-          </div>
-          <StepCarousel items={electricalItems} />
-        </section>
-
-        {/* Sanitary Fittings */}
-        <section className="mb-16">
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-2">
-              ✅ {t.sanitary}
-            </h2>
-            <p className="text-muted-foreground">{t.sanitaryDesc}</p>
-          </div>
+        {/* 1. Sanitary & Bathware */}
+        <section>
+          {sectionHeading(t.sanitary, t.sanitaryDesc, '/nav/bathroom-sanitary')}
           <StepCarousel items={sanitaryItems} />
         </section>
 
-        {/* Water Tank */}
-        <section className="mb-16">
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-2">
-              ✅ {t.waterTank}
-            </h2>
-            <p className="text-muted-foreground">{t.waterTankDesc}</p>
-          </div>
+        {/* 2. Tiles & Flooring */}
+        <section>
+          {sectionHeading(t.tiles, t.tilesDesc, '/nav/tiles-flooring')}
+          <StepCarousel items={tilesItems} />
+        </section>
+
+        {/* 3. Electrical & Lighting */}
+        <section>
+          {sectionHeading(t.electrical, t.electricalDesc, '/nav/electrical-lighting')}
+          <StepCarousel items={electricalItems} />
+        </section>
+
+        {/* 4. Water Storage */}
+        <section>
+          {sectionHeading(t.waterTank, t.waterTankDesc, '/nav/water-storage')}
           <StepCarousel items={waterTankItems} />
         </section>
 
-        {/* HIDDEN: Painting & Home Decoration Category
-        <section className="mb-16">
-          <div className="mb-8 transform hover:scale-105 transition-transform duration-300">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
-              ✅ {t.painting}
-            </h2>
-            <p className="text-gray-600">📌 {t.paintingDesc}</p>
-          </div>
-          <StepCarousel items={paintingItems} />
+        {/* 5. Foundation & Structure */}
+        <section>
+          {sectionHeading(t.foundation, t.foundationDesc, '/nav/foundation')}
+          <StepCarousel items={foundationItems} />
         </section>
-        */}
 
-        {/* HIDDEN: Windows, Doors & Glass Work Category
-        <section className="mb-16">
-          <div className="mb-8 transform hover:scale-105 transition-transform duration-300">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-[#0F2854] to-[#4988C4] bg-clip-text text-transparent mb-2">
-              ✅ {t.glass}
+        {/* ── Why Choose Us ── */}
+        <section className="pt-6">
+          <div className="text-center mb-10">
+            <span className="text-xs uppercase font-bold text-[#E8891A] tracking-widest">
+              The Vaibhav Sanitary Advantage
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0D1B2A] mt-1">
+              {t.whyChoose}
             </h2>
-            <p className="text-gray-600">📌 {t.glassDesc}</p>
+            <div className="w-16 h-1 bg-[#E8891A] mx-auto mt-3 rounded-full" />
           </div>
-          <StepCarousel items={glassItems} />
-        </section>
-        */}
-
-        {/* Why Choose Us */}
-        <section className="mb-16 bg-primary rounded-xl p-8 md:p-12 border border-primary">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            ⭐ {t.whyChoose}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="flex items-start gap-3 p-4 bg-white rounded-lg hover:shadow-md transition-shadow border border-gray-200"
+                className="card-hover-effect flex items-start gap-4 p-6 bg-white rounded-2xl border border-[#d0daea] cursor-default group"
               >
-                <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
-                <span className="text-gray-700">{benefit}</span>
+                <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-[#003B6F]/10 flex items-center justify-center text-[#003B6F] group-hover:bg-[#003B6F] group-hover:text-white group-hover:scale-110 transition-all duration-300 shadow-sm">
+                  <CheckCircle2 className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-[#0D1B2A] text-base group-hover:text-[#003B6F] transition-colors">{benefit.title}</h4>
+                  <p className="text-xs text-[#5a6a82] mt-1.5 leading-relaxed">{benefit.desc}</p>
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* About Us */}
-        <section className="mb-16 bg-blue-50 rounded-xl p-8 md:p-12 border border-blue-200">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">🧩 {t.aboutUs}</h2>
-          <p className="text-lg text-gray-700 text-center max-w-4xl mx-auto leading-relaxed">
-            {t.aboutText}
-          </p>
+        {/* ── About Us ── */}
+        <section id="about" className="scroll-mt-24">
+          <div className="bg-white rounded-2xl border border-[#d0daea] overflow-hidden shadow-sm card-hover-effect">
+            <div className="grid md:grid-cols-2">
+              <div className="p-8 md:p-12 flex flex-col justify-center">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-1.5 h-6 bg-[#E8891A] rounded-full" />
+                  <span className="text-xs font-bold text-[#E8891A] uppercase tracking-widest">
+                    Who We Are
+                  </span>
+                </div>
+                <h2 className="text-3xl font-bold text-[#0D1B2A] mb-4 leading-tight">{t.aboutUs}</h2>
+                <p className="text-[#5a6a82] leading-relaxed text-sm md:text-base">{t.aboutText}</p>
+                <div className="mt-8 pt-6 border-t border-[#d0daea] flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-2">
+                    <div className="flex">
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <Star key={i} className="w-4 h-4 fill-[#E8891A] text-[#E8891A]" />
+                      ))}
+                    </div>
+                    <span className="text-xs font-bold text-[#0D1B2A]">
+                      4.9/5 Rating (1,248+ Reviews)
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#003B6F] font-bold">
+                    <ShieldCheck className="size-4 text-[#003B6F]" />
+                    Authorized Regional Distributor
+                  </div>
+                </div>
+              </div>
+              <div className="relative min-h-[280px] md:min-h-0 bg-[#003B6F]/10 overflow-hidden group">
+                <img
+                  src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&h=500&fit=crop"
+                  alt="Vaibhav Sanitary Showroom"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#003B6F]/40 to-transparent" />
+              </div>
+            </div>
+          </div>
         </section>
 
-        {/* Contact Section */}
-        <section className="bg-white rounded-xl p-8 md:p-12 border border-gray-200">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            📞 {t.contactUs}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div 
-              className="text-center hover:shadow-lg transition-shadow p-6 rounded-lg bg-gray-50 cursor-pointer"
+        {/* ── Contact Section ── */}
+        <section id="contact" className="scroll-mt-24">
+          <div className="text-center mb-10">
+            <span className="text-xs uppercase font-bold text-[#E8891A] tracking-widest">
+              Store & Distribution Center
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0D1B2A] mt-1">{t.contactUs}</h2>
+            <div className="w-16 h-1 bg-[#E8891A] mx-auto mt-3 rounded-full" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Location */}
+            <div
+              className="card-hover-effect text-center p-8 bg-white rounded-2xl border border-[#d0daea] cursor-pointer group"
               onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Kapasan+Road+Narpat+Ki+Kheri+Chittorgarh', '_blank')}
-              title="Click to open in Google Maps"
             >
-              <div className="bg-accent w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MapPin className="w-8 h-8 text-primary-foreground" />
+              <div className="w-14 h-14 rounded-2xl bg-[#003B6F] flex items-center justify-center mx-auto mb-4 group-hover:bg-[#00244A] group-hover:scale-110 transition-all duration-300 shadow">
+                <MapPin className="w-7 h-7 text-white" />
               </div>
-              <h3 className="font-semibold text-gray-800 mb-2">{t.location}</h3>
-              <p className="text-secondary-foreground hover:text-accent transition-colors">
-                Kapasan Road, Narpat Ki Kheri, Chittorgarh
+              <h3 className="font-bold text-[#0D1B2A] text-lg mb-2 group-hover:text-[#003B6F] transition-colors">{t.location}</h3>
+              <p className="text-[#5a6a82] text-sm leading-relaxed">
+                Kapasan Road, Narpat Ki Kheri, Chittorgarh, Rajasthan
               </p>
-              <p className="text-xs text-primary-foreground mt-1">Click to view on map</p>
+              <span className="inline-block mt-3 text-xs text-[#E8891A] font-bold group-hover:translate-x-1 transition-transform">
+                Open in Google Maps & Directions &rarr;
+              </span>
             </div>
-            <div className="text-center hover:shadow-lg transition-shadow p-6 rounded-lg bg-gray-50">
-              <div className="bg-accent w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Phone className="w-8 h-8 text-primary-foreground" />
+
+            {/* Phone */}
+            <div className="card-hover-effect text-center p-8 bg-white rounded-2xl border border-[#d0daea] group">
+              <div className="w-14 h-14 rounded-2xl bg-[#003B6F] flex items-center justify-center mx-auto mb-4 group-hover:bg-[#00244A] group-hover:scale-110 transition-all duration-300 shadow">
+                <Phone className="w-7 h-7 text-white" />
               </div>
-              <h3 className="font-semibold text-gray-800 mb-2">
-                {t.callWhatsapp}
-              </h3>
-              <div className="text-gray-600 space-y-1">
-                <a 
-                  href="tel:6377307050"
-                  className="block hover:text-accent transition-colors cursor-pointer"
-                >
-                  6377307050
+              <h3 className="font-bold text-[#0D1B2A] text-lg mb-2 group-hover:text-[#003B6F] transition-colors">{t.callWhatsapp}</h3>
+              <div className="space-y-1">
+                <a href="tel:6377307050" className="block text-sm text-[#0D1B2A] font-bold hover:text-[#003B6F] transition-colors">
+                  +91 6377307050
                 </a>
-                <a 
-                  href="tel:9462656996"
-                  className="block hover:text-accent transition-colors cursor-pointer"
-                >
-                  9462656996
+                <a href="tel:9462656996" className="block text-sm text-[#0D1B2A] font-bold hover:text-[#003B6F] transition-colors">
+                  +91 9462656996
                 </a>
               </div>
-              <p className="text-xs text-primary-foreground mt-1">Click to call</p>
+              <a
+                href="https://wa.me/916377307050"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 mt-3 text-xs font-bold text-[#25D366] hover:text-[#1EBE5D] transition-colors group-hover:scale-105"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>Chat Instantly on WhatsApp</span>
+              </a>
             </div>
-            <div className="text-center hover:shadow-lg transition-shadow p-6 rounded-lg bg-gray-50">
-              <div className="bg-accent w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-8 h-8 text-primary-foreground" />
+
+            {/* Timings */}
+            <div className="card-hover-effect text-center p-8 bg-white rounded-2xl border border-[#d0daea] group">
+              <div className="w-14 h-14 rounded-2xl bg-[#003B6F] flex items-center justify-center mx-auto mb-4 group-hover:bg-[#00244A] group-hover:scale-110 transition-all duration-300 shadow">
+                <Clock className="w-7 h-7 text-white" />
               </div>
-              <h3 className="font-semibold text-gray-800 mb-2">{t.timings}</h3>
-              <p className="text-gray-600">9:00 AM – 7:00 PM</p>
+              <h3 className="font-bold text-[#0D1B2A] text-lg mb-2 group-hover:text-[#003B6F] transition-colors">{t.timings}</h3>
+              <p className="text-[#5a6a82] text-sm">Open all 7 days for builders & customers</p>
+              <p className="text-[#003B6F] font-bold text-base mt-2">9:00 AM – 7:00 PM</p>
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 mt-16 border-t border-gray-200">
+      {/* ────────────────────────────────────────────────
+          FOOTER
+      ──────────────────────────────────────────────── */}
+      <footer className="bg-[#0D1B2A] text-white pt-14 pb-8 border-t border-white/10 mt-16">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            {/* Brand column */}
             <div>
-              <h4 className="font-bold text-lg mb-4">🏠 {t.title}</h4>
-              <p className="text-gray-400 text-sm mb-4">{t.subtitle}</p>
-              <p className="text-gray-400 text-sm italic">"{t.footerTagline}"</p>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-8 h-8 rounded-lg bg-[#E8891A] flex items-center justify-center font-bold text-white text-sm">
+                  VS
+                </div>
+                <h4 className="font-bold text-lg tracking-tight">{t.title}</h4>
+              </div>
+              <p className="text-white/60 text-xs leading-relaxed mb-3">{t.subtitle}</p>
+              <p className="text-[#F4A94A] text-xs italic">"{t.footerTagline}"</p>
+              <div className="flex gap-3 mt-6">
+                <a href="#" aria-label="Facebook" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#E8891A] transition-colors">
+                  <Facebook className="w-4 h-4" />
+                </a>
+                <a href="#" aria-label="Instagram" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#E8891A] transition-colors">
+                  <Instagram className="w-4 h-4" />
+                </a>
+                <a href="#" aria-label="YouTube" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#E8891A] transition-colors">
+                  <Youtube className="w-4 h-4" />
+                </a>
+              </div>
             </div>
+
+            {/* Quick Links */}
             <div>
-              <h4 className="font-bold text-lg mb-4">Quick Links</h4>
-              <ul className="text-gray-400 text-sm space-y-2">
-                <li><a href="#" className="hover:text-white transition">Products</a></li>
-                <li><a href="#" className="hover:text-white transition">About Us</a></li>
-                <li><a href="#" className="hover:text-white transition">Contact</a></li>
-                <li><a href="#" className="hover:text-white transition">Contractors</a></li>
+              <h4 className="font-bold text-xs uppercase tracking-widest mb-4 text-[#F4A94A]">{t.quickLinks}</h4>
+              <ul className="text-white/60 text-xs space-y-2.5 font-medium">
+                <li><Link to="/nav/root" className="hover:text-white transition-colors">Product Catalog</Link></li>
+                <li><Link to="/cart" className="hover:text-white transition-colors">Inquiry Cart</Link></li>
+                <li><Link to="/account" className="hover:text-white transition-colors">Customer Account</Link></li>
+                <li><a href="#about" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="#contact" className="hover:text-white transition-colors">Store Visit</a></li>
+                <li><Link to="/admin" className="hover:text-white transition-colors">Staff / Admin Portal</Link></li>
               </ul>
             </div>
+
+            {/* Categories */}
             <div>
-              <h4 className="font-bold text-lg mb-4">Contact Info</h4>
-              <ul className="text-gray-400 text-sm space-y-2">
-                <li>📞 6377307050</li>
-                <li>📞 9462656996</li>
-                <li>📍 Kapasan Road, Chittorgarh</li>
-                <li>⏰ 9:00 AM – 7:00 PM</li>
+              <h4 className="font-bold text-xs uppercase tracking-widest mb-4 text-[#F4A94A]">{t.categories}</h4>
+              <ul className="text-white/60 text-xs space-y-2.5 font-medium">
+                <li><Link to="/nav/bathroom-sanitary" className="hover:text-white transition-colors">Bathware & Faucets</Link></li>
+                <li><Link to="/nav/tiles-flooring" className="hover:text-white transition-colors">Tiles & Epoxy Grout</Link></li>
+                <li><Link to="/nav/pipes" className="hover:text-white transition-colors">CPVC & SWR Plumbing</Link></li>
+                <li><Link to="/nav/water-storage" className="hover:text-white transition-colors">Overhead Water Tanks</Link></li>
+                <li><Link to="/nav/electrical-lighting" className="hover:text-white transition-colors">Electrical & Conduit</Link></li>
+                <li><Link to="/nav/foundation" className="hover:text-white transition-colors">Cement & Structural Base</Link></li>
+              </ul>
+            </div>
+
+            {/* Contact Information */}
+            <div>
+              <h4 className="font-bold text-xs uppercase tracking-widest mb-4 text-[#F4A94A]">{t.contactInfo}</h4>
+              <ul className="text-white/60 text-xs space-y-3 font-medium">
+                <li className="flex items-start gap-2.5">
+                  <Phone className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#E8891A]" />
+                  <span>+91 6377307050 / +91 9462656996</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#E8891A]" />
+                  <span>Kapasan Road, Narpat Ki Kheri, Chittorgarh, Rajasthan</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <Clock className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#E8891A]" />
+                  <span>9:00 AM – 7:00 PM (Monday – Sunday)</span>
+                </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
-            <p>© {new Date().getFullYear()} {t.title}. All rights reserved.</p>
+
+          {/* Bottom Bar */}
+          <div className="border-t border-white/10 pt-6 flex flex-wrap items-center justify-between gap-3 text-white/40 text-xs">
+            <p>© {new Date().getFullYear()} {t.title}. {t.allRights}</p>
+            <p className="italic">{t.tagline}</p>
           </div>
         </div>
       </footer>
-
-      {/* Floating theme toggle button */}
-      <button
-        onClick={toggleTheme}
-        style={{
-          position: 'fixed',
-          bottom: 24,
-          right: 24,
-          zIndex: 1000,
-          background: 'var(--card)',
-          color: 'var(--card-foreground)',
-          border: '1px solid var(--border)',
-          borderRadius: '50%',
-          width: 48,
-          height: 48,
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: 24,
-        }}
-        aria-label="Toggle dark mode"
-        title="Toggle dark/light mode"
-      >
-        <span role="img" aria-label="theme">🌓</span>
-      </button>
     </div>
   );
 }

@@ -73,14 +73,14 @@ export default function CartWishlistSheet() {
 
   const requestViaWhatsapp = () => {
     const itemsText = cartItems
-      .map(([productId, qty]) => {
+      .map(([productId, qty], idx) => {
         const meta = getProductMeta(productId);
-        return `${meta.title} x${qty}`;
+        return `${idx + 1}. ${meta.title} (Qty: ${qty})`;
       })
       .join("\n");
 
-    const message = `Hi Vaibhav Sanitary, I want to inquire about:\n${itemsText}`;
-    const url = `https://wa.me/919667866899?text=${encodeURIComponent(message)}`;
+    const message = `Hello Vaibhav Sanitary,\nI want to inquire about availability and pricing for:\n\n${itemsText}`;
+    const url = `https://wa.me/916377307050?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
 

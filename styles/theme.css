@@ -2,43 +2,53 @@
 
 :root {
   --font-size: 16px;
-  --background: #f5f7fa;
-  --foreground: #212F45;
+  /* Deep navy — premium Indian brand blue (inspired by Hindware / Ashirvad) */
+  --background: #f8f9fb;
+  --foreground: #0D1B2A;
   --card: #ffffff;
-  --card-foreground: #212F45;
+  --card-foreground: #0D1B2A;
   --popover: #ffffff;
-  --popover-foreground: #212F45;
-  --primary: #065A60;
+  --popover-foreground: #0D1B2A;
+  --primary: #003B6F;
   --primary-foreground: #ffffff;
-  --secondary: #e6eaf3;
-  --secondary-foreground: #212F45;
-  --muted: #bfcad6;
-  --muted-foreground: #4D194D;
-  --accent: #006466;
+  --secondary: #eef2f8;
+  --secondary-foreground: #0D1B2A;
+  --muted: #c8d4e8;
+  --muted-foreground: #5a6a82;
+  /* Warm orange accent — Ashirvad CTA / premium Indian feel */
+  --accent: #E8891A;
   --accent-foreground: #ffffff;
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
-  --border: #bfcad6;
+  --border: #d0daea;
   --input: #ffffff;
-  --input-background: #e6eaf3;
-  --switch-background: #bfcad6;
+  --input-background: #eef2f8;
+  --switch-background: #c8d4e8;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #0B525B;
-  --chart-1: #065A60;
-  --chart-2: #1B3A4B;
-  --chart-3: #272640;
-  --chart-4: #312244;
-  --chart-5: #4D194D;
+  --ring: #003B6F;
+  /* Brand tokens */
+  --brand-navy: #003B6F;
+  --brand-navy-light: #1A5C9E;
+  --brand-navy-dark: #00244A;
+  --brand-orange: #E8891A;
+  --brand-orange-light: #F4A94A;
+  --brand-orange-dark: #C46D0A;
+  --brand-teal: #006466;
+  --chart-1: #003B6F;
+  --chart-2: #1A5C9E;
+  --chart-3: #E8891A;
+  --chart-4: #F4A94A;
+  --chart-5: #006466;
   --radius: 0.5rem;
-  --sidebar: #f5f7fa;
-  --sidebar-foreground: #212F45;
-  --sidebar-primary: #1B3A4B;
+  --sidebar: #f8f9fb;
+  --sidebar-foreground: #0D1B2A;
+  --sidebar-primary: #003B6F;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e6eaf3;
-  --sidebar-accent-foreground: #212F45;
-  --sidebar-border: #bfcad6;
-  --sidebar-ring: #0B525B;
+  --sidebar-accent: #eef2f8;
+  --sidebar-accent-foreground: #0D1B2A;
+  --sidebar-border: #d0daea;
+  --sidebar-ring: #003B6F;
 }
 
 .dark {
@@ -185,7 +195,7 @@
 @keyframes vs-route-enter {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -193,14 +203,50 @@
   }
 }
 
+@keyframes vs-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes vs-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 59, 111, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 59, 111, 0);
+  }
+}
+
 @layer utilities {
   .vs-route-enter {
-    animation: vs-route-enter 220ms ease-out both;
+    animation: vs-route-enter 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  .vs-float {
+    animation: vs-float 3s ease-in-out infinite;
+  }
+
+  .vs-pulse-glow {
+    animation: vs-pulse-glow 2s infinite;
+  }
+
+  .card-hover-effect {
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-hover-effect:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 25px -5px rgba(0, 59, 111, 0.1), 0 10px 10px -5px rgba(0, 59, 111, 0.04);
+    border-color: rgba(0, 59, 111, 0.4);
+  }
   @media (prefers-reduced-motion: reduce) {
     .vs-route-enter {
       animation: none;
     }
   }
 }
+

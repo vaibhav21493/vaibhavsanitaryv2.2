@@ -92,53 +92,71 @@ export default function RequestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary/10 to-white">
-      <div className="container mx-auto px-4 py-14 vs-route-enter">
-        <Card className="mx-auto max-w-2xl">
+    <div className="min-h-screen bg-[#f8f9fb]">
+      <div className="container mx-auto px-4 py-16 vs-route-enter">
+        <Card className="mx-auto max-w-2xl border-[#d0daea] shadow-sm bg-white">
           <CardHeader>
-            <CardTitle className="text-primary">Request on Website</CardTitle>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-8 h-8 rounded-lg bg-[#003B6F] flex items-center justify-center text-white text-xs font-bold">
+                VS
+              </div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#003B6F]">Vaibhav Sanitary</span>
+            </div>
+            <CardTitle className="text-[#0D1B2A] text-2xl font-bold">Submit Formal Quotation Request</CardTitle>
             <CardDescription>
-              Submit your request here and we will contact you. WhatsApp requests are always available without login.
+              Our sales engineers will review your required items and reach out directly with availability, brand tiers, and contractor support.
             </CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-4">
             {cartItems.length === 0 ? (
-              <div className="rounded-lg border bg-card px-4 py-3 text-sm text-muted-foreground">
-                Your cart is empty. Add products to cart before submitting a request.
+              <div className="rounded-xl border border-[#d0daea] bg-[#f8f9fb] p-8 text-center text-sm text-[#5a6a82]">
+                Your inquiry cart is empty. Add products to cart before submitting a request.
+                <div className="mt-4">
+                  <Button asChild size="sm" className="bg-[#003B6F] text-white">
+                    <Link to="/nav/root">Browse Catalog</Link>
+                  </Button>
+                </div>
               </div>
             ) : (
               <div className="space-y-3">
-                <div className="rounded-xl border bg-card p-4">
-                  <div className="text-sm font-semibold text-primary">Items</div>
+                <div className="rounded-xl border border-[#d0daea] bg-[#f8f9fb] p-4">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#003B6F]">
+                    Selected Materials ({cartItems.length} items)
+                  </div>
                   <div className="mt-3 space-y-2">
                     {cartItems.map(([productId, qty]) => (
-                      <div key={productId} className="flex items-center justify-between gap-3 text-sm">
-                        <div className="min-w-0 truncate">{getProductTitle(productId)}</div>
-                        <div className="shrink-0 text-muted-foreground">x{qty}</div>
+                      <div key={productId} className="flex items-center justify-between gap-3 text-sm bg-white p-2.5 rounded-lg border border-[#d0daea]/60">
+                        <div className="min-w-0 font-semibold text-[#0D1B2A] truncate">{getProductTitle(productId)}</div>
+                        <div className="shrink-0 font-bold text-[#003B6F] text-xs bg-[#003B6F]/10 px-2 py-0.5 rounded">
+                          Qty: {qty}
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="rounded-xl border bg-white p-4">
+                <div className="rounded-xl border border-[#d0daea] bg-white p-4">
                   <div className="space-y-2">
-                    <Label htmlFor="note">Note (optional)</Label>
+                    <Label htmlFor="note" className="text-xs font-bold text-[#0D1B2A]">
+                      Project Notes / Specific Brand Preferences (Optional)
+                    </Label>
                     <Input
                       id="note"
                       value={note}
                       onChange={(e) => setNote(e.target.value)}
-                      placeholder="Any size, brand, or quantity details…"
+                      placeholder="e.g. Prefer Hindware Italian collection, need 500L Sintex tank, etc."
+                      className="border-[#d0daea] focus:border-[#003B6F]"
                     />
                   </div>
                 </div>
               </div>
             )}
 
-            <Separator />
+            <Separator className="border-[#d0daea]" />
 
             {info ? (
-              <div className="rounded-lg border border-[#4988C4]/30 bg-white px-4 py-3 text-sm text-[#0F2854]">
+              <div className="rounded-lg border border-[#003B6F]/30 bg-[#003B6F]/5 px-4 py-3 text-sm text-[#003B6F]">
                 {info}
               </div>
             ) : null}
@@ -150,12 +168,16 @@ export default function RequestPage() {
             ) : null}
           </CardContent>
 
-          <CardFooter className="flex flex-col gap-2 sm:flex-row sm:justify-between">
-            <Button variant="ghost" asChild>
-              <Link to="/">Back to home</Link>
+          <CardFooter className="flex flex-col gap-3 sm:flex-row sm:justify-between border-t border-[#d0daea]/60 pt-4">
+            <Button variant="outline" size="sm" asChild className="border-[#d0daea] text-xs">
+              <Link to="/cart">Back to Cart</Link>
             </Button>
-            <Button onClick={submitInquiry} disabled={busy || cartItems.length === 0} className="w-full sm:w-auto">
-              {busy ? "Submitting…" : "Submit request"}
+            <Button
+              onClick={submitInquiry}
+              disabled={busy || cartItems.length === 0}
+              className="bg-[#003B6F] hover:bg-[#00244A] text-white font-semibold w-full sm:w-auto text-sm"
+            >
+              {busy ? "Submitting Request..." : "Submit Quotation Request"}
             </Button>
           </CardFooter>
         </Card>

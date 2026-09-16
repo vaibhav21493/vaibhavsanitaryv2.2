@@ -77,19 +77,19 @@ export default function LoginPage() {
 
   if (user) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#BDE8F5] to-white">
-        <div className="container mx-auto px-4 py-14 vs-route-enter">
-          <Card className="mx-auto max-w-md">
-            <CardHeader>
-              <CardTitle>You are already logged in</CardTitle>
-              <CardDescription>Continue to your account.</CardDescription>
+      <div className="min-h-screen bg-[#f8f9fb]">
+        <div className="container mx-auto px-4 py-16 vs-route-enter">
+          <Card className="mx-auto max-w-md border-[#d0daea] shadow-sm">
+            <CardHeader className="text-center">
+              <CardTitle className="text-[#003B6F] text-xl font-bold">You are already logged in</CardTitle>
+              <CardDescription>Manage your inquiries and account profile.</CardDescription>
             </CardHeader>
-            <CardFooter className="gap-2">
-              <Button asChild className="w-full">
-                <Link to="/account">Go to account</Link>
+            <CardFooter className="flex flex-col gap-2">
+              <Button asChild className="w-full bg-[#003B6F] hover:bg-[#00244A] text-white">
+                <Link to="/account">Go to Account Dashboard</Link>
               </Button>
-              <Button variant="secondary" asChild className="w-full">
-                <Link to="/">Home</Link>
+              <Button variant="outline" asChild className="w-full border-[#d0daea]">
+                <Link to="/">Back to Store Home</Link>
               </Button>
             </CardFooter>
           </Card>
@@ -99,51 +99,65 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#BDE8F5] to-white">
-      <div className="container mx-auto px-4 py-14 vs-route-enter">
-        <Card className="mx-auto max-w-lg">
+    <div className="min-h-screen bg-[#f8f9fb]">
+      <div className="container mx-auto px-4 py-16 vs-route-enter">
+        <Card className="mx-auto max-w-lg border-[#d0daea] shadow-sm bg-white">
           <CardHeader>
-            <CardTitle className="text-[#0F2854]">Login or Create Account</CardTitle>
-            <CardDescription>Login to request products and send inquiries.</CardDescription>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 rounded-lg bg-[#003B6F] flex items-center justify-center text-white text-xs font-bold">
+                VS
+              </div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#003B6F]">Vaibhav Sanitary</span>
+            </div>
+            <CardTitle className="text-[#0D1B2A] text-2xl font-bold">Customer Login</CardTitle>
+            <CardDescription>Sign in to submit formal inquiries and track product requests.</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-4">
-            <Button className="w-full" onClick={signInGoogle} disabled={busy}>
-              <Chrome className="size-4" />
+            <Button
+              className="w-full border border-[#d0daea] bg-white text-[#0D1B2A] hover:bg-[#f8f9fb] shadow-sm font-semibold"
+              onClick={signInGoogle}
+              disabled={busy}
+            >
+              <Chrome className="size-4 mr-2 text-[#003B6F]" />
               Continue with Google
             </Button>
 
-            <div className="relative">
+            <div className="relative my-4">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
+                <span className="w-full border-t border-[#d0daea]" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-muted-foreground">Or continue with email</span>
+                <span className="bg-white px-3 text-[#5a6a82] font-medium">Or continue with email</span>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-xs font-bold text-[#0D1B2A]">Email Address</Label>
               <div className="relative">
-                <Mail className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                <Mail className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#5a6a82]" />
                 <Input
                   id="email"
                   type="email"
-                  className="pl-10"
+                  className="pl-10 border-[#d0daea] focus:border-[#003B6F]"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter your email address"
                 />
               </div>
             </div>
 
-            <Button className="w-full" onClick={sendEmailLink} disabled={busy || !email}>
-              Send sign-in link
+            <Button
+              className="w-full bg-[#003B6F] hover:bg-[#00244A] text-white font-semibold"
+              onClick={sendEmailLink}
+              disabled={busy || !email}
+            >
+              {busy ? "Sending Link..." : "Send Magic Sign-in Link"}
             </Button>
 
             {info ? (
-              <div className="rounded-lg border border-[#4988C4]/30 bg-white px-4 py-3 text-sm text-[#0F2854]">
+              <div className="rounded-lg border border-[#003B6F]/30 bg-[#003B6F]/5 px-4 py-3 text-sm text-[#003B6F]">
                 {info}
               </div>
             ) : null}
@@ -155,10 +169,13 @@ export default function LoginPage() {
             ) : null}
           </CardContent>
 
-          <CardFooter className="justify-between">
-            <Button variant="ghost" asChild>
-              <Link to="/">Back to home</Link>
+          <CardFooter className="justify-between border-t border-[#d0daea]/60 pt-4">
+            <Button variant="ghost" size="sm" asChild className="text-xs text-[#5a6a82]">
+              <Link to="/">Back to Home</Link>
             </Button>
+            <span className="text-xs text-[#5a6a82]">
+              Passwordless & Secure Login
+            </span>
           </CardFooter>
         </Card>
       </div>

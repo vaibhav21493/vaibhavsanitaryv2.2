@@ -100,12 +100,12 @@ export default function AccountPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#BDE8F5] to-white">
-        <div className="container mx-auto px-4 py-14 vs-route-enter">
-          <Card className="mx-auto max-w-lg">
-            <CardHeader>
-              <CardTitle className="text-[#0F2854]">Your account</CardTitle>
-              <CardDescription>Loading…</CardDescription>
+      <div className="min-h-screen bg-[#f8f9fb]">
+        <div className="container mx-auto px-4 py-16 vs-route-enter">
+          <Card className="mx-auto max-w-lg border-[#d0daea] shadow-sm">
+            <CardHeader className="text-center">
+              <CardTitle className="text-[#003B6F] text-lg font-bold">Your Account Profile</CardTitle>
+              <CardDescription>Loading details...</CardDescription>
             </CardHeader>
           </Card>
         </div>
@@ -114,34 +114,52 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#BDE8F5] to-white">
-      <div className="container mx-auto px-4 py-14 vs-route-enter">
-        <Card className="mx-auto max-w-lg">
+    <div className="min-h-screen bg-[#f8f9fb]">
+      <div className="container mx-auto px-4 py-16 vs-route-enter">
+        <Card className="mx-auto max-w-lg border-[#d0daea] shadow-sm bg-white">
           <CardHeader>
-            <CardTitle className="text-[#0F2854]">Hey, {displayName}</CardTitle>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-8 h-8 rounded-lg bg-[#003B6F] flex items-center justify-center text-white text-xs font-bold">
+                VS
+              </div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#003B6F]">Customer Dashboard</span>
+            </div>
+            <CardTitle className="text-[#0D1B2A] text-2xl font-bold">Welcome, {displayName}</CardTitle>
             <CardDescription>
-              We use your details to contact you about your inquiry requests.
+              Your contact details are used to prepare custom quotations and confirm site deliveries.
             </CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label>Email</Label>
-              <Input value={user?.email ?? ""} disabled />
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold text-[#0D1B2A]">Registered Email</Label>
+              <Input value={user?.email ?? ""} disabled className="bg-[#f8f9fb] border-[#d0daea] text-[#5a6a82]" />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="name">Full name</Label>
-              <Input id="name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+            <div className="space-y-1.5">
+              <Label htmlFor="name" className="text-xs font-bold text-[#0D1B2A]">Full Name</Label>
+              <Input
+                id="name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Enter your full name"
+                className="border-[#d0daea] focus:border-[#003B6F]"
+              />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone</Label>
-              <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <div className="space-y-1.5">
+              <Label htmlFor="phone" className="text-xs font-bold text-[#0D1B2A]">Phone / WhatsApp Number</Label>
+              <Input
+                id="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="e.g. +91 9876543210"
+                className="border-[#d0daea] focus:border-[#003B6F]"
+              />
             </div>
 
             {info ? (
-              <div className="rounded-lg border border-[#4988C4]/30 bg-white px-4 py-3 text-sm text-[#0F2854]">
+              <div className="rounded-lg border border-[#003B6F]/30 bg-[#003B6F]/5 px-4 py-3 text-sm text-[#003B6F]">
                 {info}
               </div>
             ) : null}
@@ -153,25 +171,25 @@ export default function AccountPage() {
             ) : null}
           </CardContent>
 
-          <CardFooter className="flex flex-col gap-2 sm:flex-row sm:justify-between">
-            <div className="flex flex-col gap-2 sm:flex-row sm:justify-start w-full sm:w-auto">
-              <Button variant="ghost" asChild>
-                <Link to="/">Back to home</Link>
+          <CardFooter className="flex flex-col gap-3 sm:flex-row sm:justify-between border-t border-[#d0daea]/60 pt-4">
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+              <Button variant="outline" size="sm" asChild className="border-[#d0daea] text-xs">
+                <Link to="/">Back to Store</Link>
               </Button>
               {user?.email === "pamartipranathi55@gmail.com" && (
-                <Button variant="outline" asChild>
+                <Button variant="outline" size="sm" asChild className="border-[#003B6F] text-[#003B6F] text-xs">
                   <Link to="/admin">
-                    <Shield className="size-4 mr-2" />
+                    <Shield className="size-3.5 mr-1 text-[#003B6F]" />
                     Admin Panel
                   </Link>
                 </Button>
               )}
             </div>
             <div className="flex w-full gap-2 sm:w-auto">
-              <Button onClick={save} disabled={saving} className="w-full sm:w-auto">
-                {saving ? "Saving…" : "Save"}
+              <Button onClick={save} disabled={saving} size="sm" className="bg-[#003B6F] hover:bg-[#00244A] text-white w-full sm:w-auto text-xs">
+                {saving ? "Saving..." : "Save Profile"}
               </Button>
-              <Button variant="secondary" onClick={logout} className="w-full sm:w-auto">
+              <Button variant="secondary" onClick={logout} size="sm" className="w-full sm:w-auto text-xs">
                 Logout
               </Button>
             </div>
