@@ -140,11 +140,6 @@
     color: var(--foreground);
   }
 
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
   html {
     font-size: var(--font-size);
   }
@@ -192,6 +187,10 @@
   }
 }
 
+/* ─────────────────────────────────────────────────
+   KEYFRAMES
+───────────────────────────────────────────────── */
+
 @keyframes vs-route-enter {
   from {
     opacity: 0;
@@ -204,49 +203,227 @@
 }
 
 @keyframes vs-float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-5px); }
 }
 
 @keyframes vs-pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(0, 59, 111, 0.2);
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 59, 111, 0.2); }
+  50%       { box-shadow: 0 0 0 8px rgba(0, 59, 111, 0); }
+}
+
+/* 3D orb drift for hero background */
+@keyframes vs-orb-drift {
+  0%   { transform: translate(0, 0) scale(1); opacity: 0.35; }
+  33%  { transform: translate(40px, -30px) scale(1.1); opacity: 0.5; }
+  66%  { transform: translate(-20px, 20px) scale(0.95); opacity: 0.3; }
+  100% { transform: translate(0, 0) scale(1); opacity: 0.35; }
+}
+
+@keyframes vs-orb-drift-2 {
+  0%   { transform: translate(0, 0) scale(1); opacity: 0.25; }
+  40%  { transform: translate(-50px, 40px) scale(1.15); opacity: 0.4; }
+  70%  { transform: translate(30px, -20px) scale(0.9); opacity: 0.2; }
+  100% { transform: translate(0, 0) scale(1); opacity: 0.25; }
+}
+
+/* Shimmer scan across trust bar */
+@keyframes vs-shimmer {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+
+/* Gradient animation for banner */
+@keyframes vs-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Counter roll-up */
+@keyframes vs-counter-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
   }
-  50% {
-    box-shadow: 0 0 0 8px rgba(0, 59, 111, 0);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
+/* Scroll reveal — slide up from below */
+@keyframes vs-reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Icon 3D flip on hover */
+@keyframes vs-icon-flip {
+  0%   { transform: rotateY(0deg) scale(1); }
+  50%  { transform: rotateY(90deg) scale(1.2); }
+  100% { transform: rotateY(0deg) scale(1); }
+}
+
+/* Bounce-in for badges */
+@keyframes vs-bounce-in {
+  0%   { transform: scale(0.7); opacity: 0; }
+  60%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Magnetic button pulse ring */
+@keyframes vs-ring-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(232, 137, 26, 0.5); }
+  70%  { box-shadow: 0 0 0 12px rgba(232, 137, 26, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(232, 137, 26, 0); }
+}
+
+/* ─────────────────────────────────────────────────
+   UTILITY CLASSES
+───────────────────────────────────────────────── */
+
 @layer utilities {
+
+  /* ── Route page entrance ── */
   .vs-route-enter {
     animation: vs-route-enter 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  /* ── Floating element ── */
   .vs-float {
     animation: vs-float 3s ease-in-out infinite;
   }
 
+  /* ── Pulse glow ring ── */
   .vs-pulse-glow {
     animation: vs-pulse-glow 2s infinite;
   }
 
+  /* ── Standard card hover (extended with 3D depth shadow) ── */
   .card-hover-effect {
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
-
   .card-hover-effect:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 25px -5px rgba(0, 59, 111, 0.1), 0 10px 10px -5px rgba(0, 59, 111, 0.04);
-    border-color: rgba(0, 59, 111, 0.4);
+    transform: translateY(-8px);
+    box-shadow:
+      0 24px 48px -8px rgba(0, 59, 111, 0.14),
+      0 12px 16px -6px rgba(0, 59, 111, 0.08),
+      0 0 0 1px rgba(0, 59, 111, 0.06);
+    border-color: rgba(0, 59, 111, 0.35);
   }
+
+  /* ── 3D perspective container (apply to wrapper) ── */
+  .perspective-800 {
+    perspective: 800px;
+    perspective-origin: center center;
+  }
+
+  /* ── 3D tilt card — the inner card element ── */
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    will-change: transform;
+  }
+
+  /* ── Glassmorphism card ── */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  /* ── Animated gradient banner ── */
+  .vs-gradient-anim {
+    background-size: 200% 200%;
+    animation: vs-gradient-shift 8s ease infinite;
+  }
+
+  /* ── Scroll reveal animation ── */
+  .vs-reveal {
+    animation: vs-reveal-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* ── Shimmer overlay ── */
+  .vs-shimmer-parent {
+    position: relative;
+    overflow: hidden;
+  }
+  .vs-shimmer-parent::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.45) 50%,
+      transparent 60%
+    );
+    transform: translateX(-120%);
+    animation: vs-shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* ── Counter animate in ── */
+  .vs-counter-in {
+    animation: vs-counter-in 0.5s ease both;
+  }
+
+  /* ── Orb for hero background ── */
+  .vs-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+    animation: vs-orb-drift 12s ease-in-out infinite;
+  }
+  .vs-orb-2 {
+    animation: vs-orb-drift-2 16s ease-in-out infinite;
+  }
+
+  /* ── Bounce in for badges ── */
+  .vs-bounce-in {
+    animation: vs-bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  /* ── CTA ring pulse ── */
+  .vs-ring-pulse {
+    animation: vs-ring-pulse 2s ease-out infinite;
+  }
+
+  /* ── Staggered animation delays ── */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-600 { animation-delay: 600ms; }
+
   @media (prefers-reduced-motion: reduce) {
-    .vs-route-enter {
-      animation: none;
+    .vs-route-enter,
+    .vs-float,
+    .vs-pulse-glow,
+    .vs-reveal,
+    .vs-gradient-anim,
+    .vs-bounce-in,
+    .vs-ring-pulse,
+    .vs-counter-in,
+    .vs-orb,
+    .vs-orb-2 {
+      animation: none !important;
+    }
+    .vs-shimmer-parent::after {
+      display: none;
+    }
+    .card-hover-effect:hover {
+      transform: translateY(-4px);
     }
   }
 }
-

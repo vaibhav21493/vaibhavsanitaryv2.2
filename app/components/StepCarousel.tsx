@@ -1,7 +1,8 @@
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { ChevronLeft, ChevronRight, Heart, Plus, Minus, ShoppingCart, Sparkles } from 'lucide-react';
+import { useCallback, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, Heart, Plus, Minus, ShoppingCart, BadgeCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import StarRating from './StarRating';
@@ -46,6 +47,58 @@ function PrevArrow(props: any) {
   );
 }
 
+/** 3D tilt card inner for product items */
+function TiltCard({ children, strength = 10 }: { children: React.ReactNode; strength?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
+  const [hovered, setHovered] = useState(false);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setTilt({ rotateX: -y * strength, rotateY: x * strength });
+  }, [strength]);
+
+  const handleMouseLeave = useCallback(() => {
+    setTilt({ rotateX: 0, rotateY: 0 });
+    setHovered(false);
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        perspective: '700px',
+        display: 'block',
+        height: '100%',
+      }}
+    >
+      <div
+        style={{
+          transform: `rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale(${hovered ? 1.025 : 1})`,
+          transition: hovered
+            ? 'transform 0.1s linear, box-shadow 0.15s ease'
+            : 'transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s ease',
+          boxShadow: hovered
+            ? `${-tilt.rotateY * 1.2}px ${tilt.rotateX * 1.2}px 28px rgba(0,59,111,0.16), 0 2px 8px rgba(0,59,111,0.06)`
+            : '0 2px 8px rgba(0,59,111,0.05)',
+          transformStyle: 'preserve-3d',
+          borderRadius: '1rem',
+          height: '100%',
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export default function StepCarousel({ items }: StepCarouselProps) {
   const { getRating, setRating, addToCart, decrementCart, toggleWishlist, wishlist, getCartQuantity } = useShop();
 
@@ -69,26 +122,26 @@ export default function StepCarousel({ items }: StepCarouselProps) {
     const cartQty = item.navId ? getCartQuantity(item.navId) : 0;
 
     return (
-      <div className="card-hover-effect rounded-2xl overflow-hidden border border-[#d0daea] bg-white flex flex-col justify-between group cursor-pointer h-full">
-        {/* Image Area with smooth zoom & gradient overlay */}
+      <div className="rounded-2xl overflow-hidden border border-[#d0daea] bg-white flex flex-col justify-between group cursor-pointer h-full">
+        {/* Image Area */}
         <div className="relative aspect-square overflow-hidden bg-[#f8f9fb]">
           <img
             src={item.image}
             alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
             loading="lazy"
           />
 
-          {/* Smooth hover gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+          {/* Gradient overlay on hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-          {/* Single Wishlist Button with bounce animation */}
+          {/* Wishlist Button */}
           {item.navId && (
             <button
               className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 shadow-md ${
                 isWishlisted
-                  ? 'bg-red-50 text-red-500 border border-red-200 scale-105'
-                  : 'bg-white/90 text-gray-500 border border-[#d0daea] hover:bg-red-50 hover:text-red-500 hover:border-red-200 hover:scale-110'
+                  ? 'bg-red-50 text-red-500 border border-red-200 scale-110'
+                  : 'bg-white/90 text-gray-400 border border-[#d0daea] hover:bg-red-50 hover:text-red-500 hover:border-red-200 hover:scale-110'
               } active:scale-90`}
               onClick={(e) => {
                 e.preventDefault();
@@ -105,8 +158,14 @@ export default function StepCarousel({ items }: StepCarouselProps) {
             </button>
           )}
 
-          {/* Subtle Verified Badge */}
-          <span className="absolute bottom-3 left-3 bg-[#003B6F]/90 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {/* Verified badge — floats with translateZ depth */}
+          <span
+            className="absolute bottom-3 left-3 bg-[#003B6F]/90 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300"
+            style={{
+              transform: 'translateZ(12px)',
+            }}
+          >
+            <BadgeCheck className="w-3 h-3 text-[#F4A94A]" />
             Verified Supply
           </span>
         </div>
@@ -125,7 +184,7 @@ export default function StepCarousel({ items }: StepCarouselProps) {
           </div>
 
           <div className="mt-4 pt-3 border-t border-[#d0daea]/60">
-            {/* Rating row with interactive stars */}
+            {/* Rating row */}
             {item.navId && (
               <div className="mb-3 flex items-center justify-between gap-2">
                 <StarRating
@@ -140,7 +199,7 @@ export default function StepCarousel({ items }: StepCarouselProps) {
               </div>
             )}
 
-            {/* Cart control with smooth button states */}
+            {/* Cart control — with push-in 3D press effect */}
             {item.navId && (
               <div>
                 {cartQty > 0 ? (
@@ -175,7 +234,8 @@ export default function StepCarousel({ items }: StepCarouselProps) {
                   </div>
                 ) : (
                   <button
-                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#003B6F] hover:bg-[#00244A] text-white text-xs font-bold transition-all duration-200 shadow-sm hover:shadow active:scale-98"
+                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#003B6F] hover:bg-[#00244A] text-white text-xs font-bold transition-all duration-200 shadow-sm hover:shadow-lg active:scale-95 active:shadow-none"
+                    style={{ WebkitTapHighlightColor: 'transparent' }}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -205,10 +265,14 @@ export default function StepCarousel({ items }: StepCarouselProps) {
                 className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#003B6F] focus-visible:ring-offset-2 rounded-2xl h-full"
                 aria-label={`Open ${item.title}`}
               >
-                <CardInner item={item} />
+                <TiltCard>
+                  <CardInner item={item} />
+                </TiltCard>
               </Link>
             ) : (
-              <CardInner item={item} />
+              <TiltCard>
+                <CardInner item={item} />
+              </TiltCard>
             )}
           </div>
         ))}
